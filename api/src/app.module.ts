@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { environment } from './environments';
+import { TwitterModule } from './twitter/twitter.module';
 
 @Module({
   imports: [
@@ -10,8 +9,9 @@ import { environment } from './environments';
       useNewUrlParser: true,
       useUnifiedTopology: true,
     }),
+    TwitterModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
