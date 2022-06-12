@@ -1,0 +1,34 @@
+version: '3.7'
+
+services:
+  social-plus-dev:
+    container_name: social-plus-dev
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    volumes:
+      - .:/api
+      - /api/node_modules
+    ports:
+      - 4000:4000
+    command: npm run start:dev
+    env_file:
+      - .env
+    networks:
+      - social-plus-network
+    depends_on:
+      - mongodb
+  mongodb:
+    container_name: mongodb
+    image: mongo:4.4
+    networks:
+      - social-plus-network
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo:/data/db
+networks:
+  social-plus-network:
+volumes:
+  mongo:
