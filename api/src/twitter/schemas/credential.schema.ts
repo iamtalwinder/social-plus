@@ -1,15 +1,20 @@
 import { Schema, Document } from 'mongoose';
+import { v4 as uuid } from 'uuid';
 import {
   Schema as SchemaDecorator,
   Prop,
   SchemaFactory,
 } from '@nestjs/mongoose';
-import { BaseClass, idPlugin } from 'src/common';
 
 @SchemaDecorator({
   timestamps: true,
 })
-export class Credential extends BaseClass {
+export class Credential {
+  @Prop({
+    default: uuid,
+  })
+  public _id?: string;
+
   @Prop({
     index: true,
   })
@@ -20,6 +25,18 @@ export class Credential extends BaseClass {
     type: String,
   })
   public authSecret?: string;
+
+  @Prop({
+    required: false,
+    type: String,
+  })
+  public requestToken?: string;
+
+  @Prop({
+    required: false,
+    type: String,
+  })
+  public requestSecret?: string;
 }
 
 export interface CredentialDocument extends Document<string>, Credential {
@@ -30,5 +47,3 @@ export interface CredentialDocument extends Document<string>, Credential {
 export const CredentialSchemaName: string = Credential.name;
 export const CredentialSchema: Schema<CredentialDocument> =
   SchemaFactory.createForClass(Credential);
-
-CredentialSchema.plugin(idPlugin);

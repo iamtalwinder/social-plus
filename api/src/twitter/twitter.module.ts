@@ -1,11 +1,15 @@
 import { Module } from '@nestjs/common';
-import { TwitterService } from './twitter.service';
-import { TwitterController } from './twitter.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CredentialSchemaName, CredentialSchema } from './schemas';
+import {
+  AuthService,
+  CredentialService,
+  TwitterClientService,
+} from './services';
+import { TwitterAuthController } from './controllers';
 
 @Module({
-  controllers: [TwitterController],
+  controllers: [TwitterAuthController],
   imports: [
     MongooseModule.forFeature([
       {
@@ -14,6 +18,6 @@ import { CredentialSchemaName, CredentialSchema } from './schemas';
       },
     ]),
   ],
-  providers: [TwitterService],
+  providers: [TwitterClientService, AuthService, CredentialService],
 })
 export class TwitterModule {}
